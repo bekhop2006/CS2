@@ -17,16 +17,12 @@ struct MapItem: Identifiable, Hashable {
 extension MapItem {
     static let activeMaps: [MapItem] = [
         MapItem(name: "Anubis", imageName: "MapAnubis", radarImageName: "RadarAnubis"),
-        MapItem(name: "Overpass", imageName: "MapOverpass", radarImageName: nil),
-        MapItem(name: "Inferno", imageName: "MapInferno", radarImageName: nil),
+        MapItem(name: "Overpass", imageName: "MapOverpass", radarImageName: "RadarOverpass"),
+        MapItem(name: "Inferno", imageName: "MapInferno", radarImageName: "RadarInferno"),
         MapItem(name: "Mirage", imageName: "MapMirage", radarImageName: "RadarMirage"),
         MapItem(name: "Dust II", imageName: "MapDust2", radarImageName: "RadarDust2"),
-        MapItem(name: "Nuke", imageName: "MapNuke", radarImageName: nil)
-    ]
-
-    static let otherMaps: [MapItem] = [
         MapItem(name: "Ancient", imageName: "MapAncient", radarImageName: "RadarAncient")
     ]
 
-    static var allMaps: [MapItem] { activeMaps + otherMaps }
+    static var allMaps: [MapItem] { activeMaps }
 }

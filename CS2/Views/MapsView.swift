@@ -5,20 +5,13 @@
 
 import SwiftUI
 
-enum MapsTab: String, CaseIterable {
-    case active = "ACTIVE MAPS"
-    case other = "OTHER MAPS"
-}
-
 struct MapsView: View {
     @EnvironmentObject var lineupViewModel: LineupViewModel
-    @State private var selectedTab: MapsTab = .active
 
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
                 header
-                tabs
                 mapList
             }
             .background(Theme.screenBackground)
@@ -61,39 +54,8 @@ struct MapsView: View {
         .frame(height: 56)
     }
 
-    private var tabs: some View {
-        HStack(spacing: 0) {
-            ForEach(MapsTab.allCases, id: \.self) { tab in
-                Button(action: { selectedTab = tab }) {
-                    Text(tab.rawValue)
-                        .font(.subheadline)
-                        .fontWeight(.bold)
-                        .foregroundColor(selectedTab == tab ? .white : .white.opacity(0.9))
-                        .padding(.horizontal, 20)
-                        .padding(.vertical, 10)
-                        .background(
-                            Group {
-                                if selectedTab == tab {
-                                    Theme.tabSelected
-                                } else {
-                                    Color.clear
-                                }
-                            }
-                        )
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                }
-                .buttonStyle(.plain)
-            }
-        }
-        .padding(.horizontal, 20)
-        .padding(.vertical, 12)
-        .background(Theme.headerBackground)
-    }
-
     private var mapList: some View {
-        let items = selectedTab == .active ? MapItem.activeMaps : MapItem.otherMaps
-
-        return List(items) { map in
+        List(MapItem.activeMaps) { map in
             NavigationLink(value: map) {
                 MapCardView(map: map)
                     .contentShape(Rectangle())

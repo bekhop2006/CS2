@@ -118,11 +118,21 @@ struct SmokeTutorialVideoSheet: View {
     let smokeTarget: SmokeTarget
     let onDismiss: () -> Void
 
+    /// Ищем видео по карте: Dust II → video-tutor/dust2/, Mirage → video-tutor/mirage/.
     private var videoURL: URL? {
-        if let s = smokeTarget.videoURL { return URL(string: s) }
-        if let name = smokeTarget.videoAssetName, let url = Bundle.main.url(forResource: name, withExtension: nil) ?? Bundle.main.url(forResource: name, withExtension: "mp4") {
-            return url
+        if let s = smokeTarget.videoURL, let url = URL(string: s) { return url }
+        guard let name = smokeTarget.videoAssetName else { return nil }
+        let subdir: String
+        switch smokeTarget.mapName {
+        case "Dust II": subdir = "video-tutor/dust2"
+        case "Mirage": subdir = "video-tutor/mirage"
+        case "Ancient": subdir = "video-tutor/ancient"
+        case "Anubis": subdir = "video-tutor/anubis"
+        default: subdir = "video-tutor"
         }
+        if let url = Bundle.main.url(forResource: name, withExtension: "mp4", subdirectory: subdir) { return url }
+        if let url = Bundle.main.url(forResource: name, withExtension: nil, subdirectory: subdir) { return url }
+        if let url = Bundle.main.url(forResource: name, withExtension: "mp4") { return url }
         return nil
     }
 
@@ -146,7 +156,7 @@ struct SmokeTutorialVideoSheet: View {
                                 .font(.headline)
                             Text("Смок: \(smokeTarget.name)")
                                 .font(.subheadline)
-                            Text("Подставь videoURL или videoAssetName\nв SmokeTarget.swift для этой точки")
+                            Text("Видео не найдено. Проверь: 1) videoAssetName в SmokeTarget.swift; 2) папка CS2/video-tutor/dust2 с .mp4 в Copy Bundle Resources.")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                                 .multilineTextAlignment(.center)
@@ -264,16 +274,18 @@ struct VideoPlayerView: View {
     let url: URL
 
     var body: some View {
-        _AVPlayerView(player: AVPlayer(url: url))
+        _AVPlayerView(url: url)
     }
 }
 
 private struct _AVPlayerView: UIViewControllerRepresentable {
-    let player: AVPlayer
+    let url: URL
 
     func makeUIViewController(context: Context) -> AVPlayerViewController {
         let vc = AVPlayerViewController()
+        let player = AVPlayer(url: url)
         vc.player = player
+        player.play()
         return vc
     }
 

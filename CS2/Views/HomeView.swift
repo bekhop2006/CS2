@@ -9,9 +9,24 @@ struct HomeView: View {
     @EnvironmentObject var lineupViewModel: LineupViewModel
     @StateObject private var tipsVM = TipsViewModel()
 
+    private static let thankYouLetter = """
+        Дорогая Куралай Махметова!
+
+        Спасибо вам за терпение, знания и поддержку. Этот финал для нас — особенный, и мы хотим сказать, как важно было учиться у вас. Спасибо за каждый урок и за веру в нас.
+
+        С уважением и благодарностью,
+        ваши ученики ❤️
+        """
+
     var body: some View {
         NavigationStack {
             List {
+                Section("Благодарность") {
+                    Text(Self.thankYouLetter)
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                        .padding(.vertical, 4)
+                }
                 Section("Your lineups") {
                     let counts = lineupViewModel.lineupCountByMap()
                     if counts.isEmpty {

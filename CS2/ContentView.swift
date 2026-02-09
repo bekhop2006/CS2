@@ -9,10 +9,17 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject private var lineupViewModel = LineupViewModel()
+    @ObservedObject private var auth = AuthService.shared
 
     var body: some View {
-        MainTabView()
-            .environmentObject(lineupViewModel)
+        Group {
+            if auth.isLoggedIn {
+                MainTabView()
+                    .environmentObject(lineupViewModel)
+            } else {
+                LoginView()
+            }
+        }
     }
 }
 
