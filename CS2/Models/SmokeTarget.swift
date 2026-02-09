@@ -75,80 +75,106 @@ enum SmokeData {
 
     private static let dust2Targets: [String: SmokeTarget] = {
         // Видео: подставь videoURL: "https://..." или videoAssetName: "имя_файла" когда будут готовы
-        // A Site
+        //
+        // Сейчас активна только одна настоящая точка (A Site).
+        // Ещё 4 точки оставлены ниже как закомментированные примеры — когда будешь готов,
+        // просто сними `//` и подставь свои координаты/названия.
+
+        // 1) Активная точка — A Site (видна в приложении)
         let a = SmokeTarget(
             id: UUID(uuidString: "A1A1A1A1-0001-4000-8000-000000000001")!,
             mapName: dust2MapName,
             name: "A Site",
-            normalizedX: 0.80,
-            normalizedY: 0.20,
-            videoURL: nil,       // ← подставь ссылку на видео
-            videoAssetName: nil  // ← или имя файла из проекта
-        )
-        let b = SmokeTarget(
-            id: UUID(uuidString: "A1A1A1A1-0002-4000-8000-000000000002")!,
-            mapName: dust2MapName,
-            name: "B Site",
-            normalizedX: 0.28,
+            normalizedX: 0.45,
             normalizedY: 0.30,
-            videoURL: nil,
-            videoAssetName: nil
+            videoURL: nil,        // ← если хочешь стримить с URL
+            videoAssetName: "XBOX" // ← имя файла XBOX.mp4, добавленного в target CS2
         )
-        let m = SmokeTarget(
-            id: UUID(uuidString: "A1A1A1A1-0003-4000-8000-000000000003")!,
-            mapName: dust2MapName,
-            name: "Mid",
-            normalizedX: 0.50,
-            normalizedY: 0.52,
-            videoURL: nil,
-            videoAssetName: nil
-        )
-        let l = SmokeTarget(
-            id: UUID(uuidString: "A1A1A1A1-0004-4000-8000-000000000004")!,
-            mapName: dust2MapName,
-            name: "Long A",
-            normalizedX: 0.80,
-            normalizedY: 0.38,
-            videoURL: nil,
-            videoAssetName: nil
-        )
-        let c = SmokeTarget(
-            id: UUID(uuidString: "A1A1A1A1-0005-4000-8000-000000000005")!,
-            mapName: dust2MapName,
-            name: "Catwalk",
-            normalizedX: 0.62,
-            normalizedY: 0.42,
-            videoURL: nil,
-            videoAssetName: nil
-        )
-        return ["a": a, "b": b, "m": m, "l": l, "c": c]
+
+        // 2–5) Примеры остальных точек (пока ЗАКОММЕНТИРОВАНЫ)
+        //
+        // let b = SmokeTarget(
+        //     id: UUID(uuidString: "A1A1A1A1-0002-4000-8000-000000000002")!,
+        //     mapName: dust2MapName,
+        //     name: "B Site",
+        //     normalizedX: 0.28,
+        //     normalizedY: 0.30,
+        //     videoURL: nil,
+        //     videoAssetName: nil
+        // )
+        //
+        // let m = SmokeTarget(
+        //     id: UUID(uuidString: "A1A1A1A1-0003-4000-8000-000000000003")!,
+        //     mapName: dust2MapName,
+        //     name: "Mid",
+        //     normalizedX: 0.50,
+        //     normalizedY: 0.52,
+        //     videoURL: nil,
+        //     videoAssetName: nil
+        // )
+        //
+        // let l = SmokeTarget(
+        //     id: UUID(uuidString: "A1A1A1A1-0004-4000-8000-000000000004")!,
+        //     mapName: dust2MapName,
+        //     name: "Long A",
+        //     normalizedX: 0.80,
+        //     normalizedY: 0.38,
+        //     videoURL: nil,
+        //     videoAssetName: nil
+        // )
+        //
+        // let c = SmokeTarget(
+        //     id: UUID(uuidString: "A1A1A1A1-0005-4000-8000-000000000005")!,
+        //     mapName: dust2MapName,
+        //     name: "Catwalk",
+        //     normalizedX: 0.62,
+        //     normalizedY: 0.42,
+        //     videoURL: nil,
+        //     videoAssetName: nil
+        // )
+
+        // Сейчас возвращаем только одну точку.
+        return ["a": a]
+
+        // Когда будешь готов использовать все 5:
+        // return ["a": a, "b": b, "m": m, "l": l, "c": c]
     }()
 
     // Позиции броска для каждой точки смока (названия и видео меняй при необходимости)
     private static var throwPositionsByTarget: [UUID: [ThrowPosition]] {
         let a = dust2Targets["a"]!
-        let b = dust2Targets["b"]!
-        let m = dust2Targets["m"]!
-        let l = dust2Targets["l"]!
-        let c = dust2Targets["c"]!
+        // Примеры для остальных точек — пока закомментированы:
+        //
+        // let b = dust2Targets["b"]!
+        // let m = dust2Targets["m"]!
+        // let l = dust2Targets["l"]!
+        // let c = dust2Targets["c"]!
+
         return [
+            // 1) Активные позиции для A Site
             a.id: [
                 ThrowPosition(smokeTargetId: a.id, name: "С CT спавна", videoURL: nil, videoAssetName: nil),
                 ThrowPosition(smokeTargetId: a.id, name: "С Long", videoURL: nil, videoAssetName: nil)
-            ],
-            b.id: [
-                ThrowPosition(smokeTargetId: b.id, name: "С B туннеля", videoURL: nil, videoAssetName: nil),
-                ThrowPosition(smokeTargetId: b.id, name: "С CT", videoURL: nil, videoAssetName: nil)
-            ],
-            m.id: [
-                ThrowPosition(smokeTargetId: m.id, name: "С T спавна", videoURL: nil, videoAssetName: nil)
-            ],
-            l.id: [
-                ThrowPosition(smokeTargetId: l.id, name: "С pit", videoURL: nil, videoAssetName: nil)
-            ],
-            c.id: [
-                ThrowPosition(smokeTargetId: c.id, name: "С mid", videoURL: nil, videoAssetName: nil)
             ]
+
+            // 2–5) Примеры для остальных точек (раскомментируй когда будешь готов):
+            //
+            // , b.id: [
+            //     ThrowPosition(smokeTargetId: b.id, name: "С B туннеля", videoURL: nil, videoAssetName: nil),
+            //     ThrowPosition(smokeTargetId: b.id, name: "С CT", videoURL: nil, videoAssetName: nil)
+            // ]
+            //
+            // , m.id: [
+            //     ThrowPosition(smokeTargetId: m.id, name: "С T спавна", videoURL: nil, videoAssetName: nil)
+            // ]
+            //
+            // , l.id: [
+            //     ThrowPosition(smokeTargetId: l.id, name: "С pit", videoURL: nil, videoAssetName: nil)
+            // ]
+            //
+            // , c.id: [
+            //     ThrowPosition(smokeTargetId: c.id, name: "С mid", videoURL: nil, videoAssetName: nil)
+            // ]
         ]
     }
 }
